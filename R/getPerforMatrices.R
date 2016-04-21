@@ -3,6 +3,8 @@
 
 getMatrix = function(data, column = "predictive.accuracy"){
 
+  cat(paste0("\t@ building ",column, " matrix \n"))
+
   all.learners = unique(data$algo)
   all.tasks = unique(data$task.id)
 
@@ -19,14 +21,16 @@ getMatrix = function(data, column = "predictive.accuracy"){
   # Removing algs with no execution (not being applied on all tasks)
   uniquelength = sapply(data.frame(mat), function(x) length(unique(x)))
   mat = subset(data.frame(mat), select = uniquelength > 1)
+ 
   return(mat)
-
 }
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
 getMatrixAucRuntime = function(data, w = 0.1){
+
+  cat(paste0("\t@ building auc.weighted.by.runtime matrix \n"))
 
   all.learners = unique(data$algo)
   all.tasks = unique(data$task.id)
@@ -47,8 +51,9 @@ getMatrixAucRuntime = function(data, w = 0.1){
   # Removing algs with no execution (not being applied on all tasks)
   uniquelength = sapply(data.frame(mat), function(x) length(unique(x)))
   mat = subset(data.frame(mat), select = uniquelength > 1)
+  mat[mat < 0] = 0
+  
   return(mat)
-
 }
 
 #--------------------------------------------------------------------------------------------------

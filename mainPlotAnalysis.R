@@ -1,35 +1,13 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-library("ggplot2")
-library("reshape2")
-library("gridExtra")  
-library("mlr")
-library("OpenML")
-
-#--------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------
-
-loadAll = function() {
-
-  files = list.files(path="R", pattern=".R$", full.names=TRUE)
-  for(file in files) {
-    source(file)
-  }
-
-}
-
-#--------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------
-
-
 main = function() {
   
-  loadAll()
+  devtools::load_all()
 
   dir = "plots/"
   if(!dir.exists(dir)) {
-    catf(" - Creating dir:", dir)
+    catf(" - Creating dir: plots/")
     dir.create(dir)
   }
 
@@ -38,7 +16,7 @@ main = function() {
   load(filename)
 
   # data from OpenML
-  # data = getRunsResults(tag = "randomBot")
+  # data = getRunResultsByTag(tag = "randomBot")
 
   # AUC must be numeric
   data$area.under.roc.curve = as.numeric(as.character(data$area.under.roc.curve))

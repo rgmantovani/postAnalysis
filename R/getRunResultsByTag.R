@@ -1,7 +1,11 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getRunsResults = function(tag) {
+getRunResultsByTag = function(tag) {
+
+  if(is.null(tag)) {
+    stop("You should specifiy a tag to get your OpenML runs!")
+  }
 
   cat(" - Getting your data from OpenML \n")
   results  = listOMLRunEvaluations(tag = tag)
@@ -30,7 +34,7 @@ getRunsResults = function(tag) {
       algo = flows$name[id]
     }
 
-    # Get dataset information from datasets data frame
+    # Get dataset information from datasets list
     task = getOMLTask(task.id = temp$task.id[i])
     data.id = which(datasets$did == task$input$data.set$desc$id)
 
@@ -45,7 +49,7 @@ getRunsResults = function(tag) {
   temp = cbind(temp, data.temp)
   temp$perMajClass = temp$MajorityClassSize / temp$NumberOfInstances
 
-  # Renaming coluns (dataset)
+  # Renaming coluns
   colnames(temp)[grep("did", colnames(temp))] = "dataset.id"
   colnames(temp)[grep("name", colnames(temp))] = "dataset.name"
   
@@ -61,7 +65,6 @@ getRunsResults = function(tag) {
 
   return(temp)
 }
-
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------

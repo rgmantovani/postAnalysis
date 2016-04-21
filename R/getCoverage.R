@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-coverageAlg = function(data) {
+getAlgoCoverage = function(data) {
   
   total = length(unique(data$task.id))
   tab = data.frame(cbind(table(data$algo), table(data$algo)/total))
@@ -14,7 +14,7 @@ coverageAlg = function(data) {
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-coverageTask = function(data) {
+getTaskCoverage = function(data) {
   
   total = length(unique(data$algo))
   tab = data.frame(cbind(table(data$task.id), table(data$task.id)/total))
