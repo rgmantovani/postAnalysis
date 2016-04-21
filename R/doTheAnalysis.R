@@ -37,7 +37,7 @@ doTheAnalysis = function(data, k = 5) {
     savePlotInEpsFile(g = runtime.bar.plot, filename = "plots/RuntimeBarPlot", 
       height = 4.5, width = 10)
 
-    runtime.boxplot = getRuntimeBoxPlot(data)
+    runtime.boxplot = getRuntimeBoxplot(data = data)
     savePlotInEpsFile(g = runtime.boxplot, filename = "plots/RuntimeBoxplot", 
       height = 4.5, width = 9)
   }

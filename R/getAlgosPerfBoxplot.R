@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getAlgosPerformanceBoxplot = function(data) {
+getAlgosPerfBoxplot = function(data) {
 
   df = data.frame(data)
   temp = df[ ,c("algo", "area.under.roc.curve")]
