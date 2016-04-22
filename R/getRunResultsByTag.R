@@ -48,6 +48,7 @@ getRunResultsByTag = function(tag) {
   data.temp = do.call("rbind", aux)
   temp = cbind(temp, data.temp)
   temp$perMajClass = temp$MajorityClassSize / temp$NumberOfInstances
+  temp$area.under.roc.curve = as.numeric(as.character(temp$area.under.roc.curve))
 
   # Renaming coluns
   colnames(temp)[grep("did", colnames(temp))] = "dataset.id"
@@ -59,6 +60,13 @@ getRunResultsByTag = function(tag) {
   } else {
     temp$training.time = 0
     temp$testing.time = 0
+  }
+
+  # Removing duplicated tasks (different tasks (ids) but they have the same setup (data, split) )
+  ids = which(duplicated(temp[ ,c("algo", "predictive.accuracy", "area.under.roc.curve", "dataset.id", "dataset.name")]))
+  if(length(ids) > 0) {
+    cat(" - removing duplicated runs ... \n")
+    temp = temp[-ids, ]
   }
 
   cat(" - Returning your final data frame\n")

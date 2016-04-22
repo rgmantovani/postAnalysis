@@ -3,19 +3,18 @@
 
 doTheAnalysis = function(data, k = 5) {
 
-  # Making matrixes
   cat(" - Generating matrices: \n")
-  mat.acc = getMatrix(data, column = "predictive.accuracy")
-  mat.auc = getMatrix(data, column = "area.under.roc.curve")
+  mat.acc  = getMatrix(data, column = "predictive.accuracy")
+  mat.auc  = getMatrix(data, column = "area.under.roc.curve")
   mat.comp = getMatrixAucRuntime(data, w = 0.1)
  
 
   cat(" - Generating rankings: \n")
-  rk.acc = getRanking(mat.acc)
-  rk.auc = getRanking(mat.auc) 
+  rk.acc  = getRanking(mat.acc)
+  rk.auc  = getRanking(mat.auc) 
   rk.comp = getRanking(mat.comp) 
   
-  # binding average ranking for each measure
+  # binding average ranking for each measure (rk with the 3 different measures)
   rk.full = data.frame(cbind(rk.acc$rk.mean, rk.auc$rk.mean[,2], rk.comp$rk.mean[,2]))
   colnames(rk.full) = c("alg", "rk_acc", "rk_auc", "rk_auc_run")
   
@@ -48,7 +47,7 @@ doTheAnalysis = function(data, k = 5) {
   savePlotInEpsFile(g = algos.boxplot, filename = "plots/AlgosPerformanceBoxplot")
  
 
-  cat("\t@Plot: average peformance plots (rankings, accuracy) \n")
+  cat("\t@Plot: Average Peformance plots (rankings, accuracy) \n")
   algos.avg.plot = getAlgosAvegPerfLinePlot(data = data, rk.full = rk.full)
   savePlotInEpsFile(g = algos.avg.plot, filename = "plots/AlgosPerformanceLinePlot")
 

@@ -7,7 +7,7 @@ getRuntime = function(data) {
   temp = df[, c("algo", "training.time", "testing.time")]
   temp$total.time = temp$training.time + temp$testing.time
 
-  # [alg | avg train | avg test | avg total]
+  # df = [alg | avg train | avg test | avg total]
   algos = unique(temp$algo)
   aux = lapply(algos, function(alg) {
     d = temp[which(data$algo == alg),]
@@ -21,7 +21,6 @@ getRuntime = function(data) {
 
   return(temp)
 }
-
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------

@@ -8,6 +8,7 @@ getAlgoCoverage = function(data) {
   tab$algo = rownames(tab)
   rownames(tab) = NULL
   colnames(tab) = c("num_algs", "cov_alg", "alg")
+
   return(tab)
 }
 
@@ -21,6 +22,7 @@ getTaskCoverage = function(data) {
   tab$task = rownames(tab)
   rownames(tab) = NULL
   colnames(tab) = c("num_algs", "cov_task", "task")
+
   return(tab)
 }
 

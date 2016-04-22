@@ -15,7 +15,7 @@ getRuntimeBarPlot = function(data) {
   g = g + geom_line() + geom_point()
   g = g + theme(text = element_text(size=10), 
     axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-  g = g + ylab("Average time (log scale)") + xlab("Algorithms")
+  g = g + ylab("Average runtime (log scale)") + xlab("Algorithms")
   
   return(g)
 }

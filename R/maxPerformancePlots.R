@@ -56,10 +56,10 @@ getMaxPerfByMeasure = function(data, tasks, chart = "boxplot", prefix = NULL) {
 
     g = ggplot(df, aes(x=as.factor(algo), y=task, fill=percentage))
     g = g + geom_tile() 
-    g = g + scale_fill_gradient(low="white", high="black")
+    g = g + scale_fill_gradient(low = "white", high = "black")
     g = g + scale_y_discrete(breaks = FALSE)
-    g = g + theme(text = element_text(size=10), axis.text.y = element_blank(), 
-      axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+    g = g + theme(text = element_text(size = 10), axis.text.y = element_blank(), 
+      axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
     g = g + ylab("Tasks") + xlab("Algorithms")
     g = g + ggtitle("Percentage of the maximum performance over all the tasks")
 
@@ -68,7 +68,8 @@ getMaxPerfByMeasure = function(data, tasks, chart = "boxplot", prefix = NULL) {
     g = ggplot(data = df, mapping = aes(x = as.factor(algo), y = value))
     g = g + geom_boxplot(outlier.colour = "black", outlier.size = 1)
     g = g + scale_y_continuous(limits = c(0, 1))
-    g = g + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+    g = g + theme(text = element_text(size = 10), 
+      axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
     g = g + ylab(paste0("% of the maximum ", gsub("_", "", prefix))) + xlab("Algorithms")
   }
 
@@ -98,8 +99,8 @@ getPercMaxPerfBoxplot = function(data, mat.acc, mat.auc) {
 
 getPercentageMaxPerfPlot = function(data, mat.acc, mat.auc, mat.comp) {
 
-  tasks.acc  = percMaxPerfAux(mat.acc)
-  tasks.auc  = percMaxPerfAux(mat.auc)
+  tasks.acc   = percMaxPerfAux(mat.acc)
+  tasks.auc   = percMaxPerfAux(mat.auc)
   tasks.comp  = percMaxPerfAux(mat.comp)
 
   temp.acc = data.frame(do.call("rbind",lapply(1:ncol(tasks.acc), function(j){
@@ -124,15 +125,15 @@ getPercentageMaxPerfPlot = function(data, mat.acc, mat.auc, mat.comp) {
   temp = temp[order(temp$perc_max_auc, decreasing = TRUE), ]
   temp$alg = factor(temp$alg, levels = temp$alg)
  
-  df.p = melt(temp, id.vars=4)
+  df.p = melt(temp, id.vars = 4)
   colnames(df.p)[2] = "Measure"
   
   g = ggplot(data=df.p, aes(x=alg, y=value, group=Measure, colour=Measure, linetype=Measure, shape=Measure)) 
   g = g + geom_line() + geom_point() 
-  g = g + guides(fill=FALSE)
-  g = g + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+  g = g + guides(fill = FALSE)
+  g = g + theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
   g = g + scale_y_continuous(limits = c(0.0, 1))
-  g = g + scale_colour_brewer(palette="Set2")
+  g = g + scale_colour_brewer(palette = "Set2")
   g = g + ylab("% of Max. Performance") + xlab("Algorithms")
 
   return(g)

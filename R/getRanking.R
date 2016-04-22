@@ -21,6 +21,7 @@ getRanking = function(mat) {
   rk.mean = rk.mean[, c(2,1)]
 
   ret = list(rk = temp, rk.mean = rk.mean)
+
   return(ret)
 }
 

@@ -1,10 +1,15 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-savePlotInEpsFile = function(g, filename, height = NA, width = NA){ 
+savePlotInEpsFile = function(g, filename, height = NA, width = NA) { 
+  
+  ggsave(
+    plot   = g, 
+    file   = paste0(filename, ".eps"), 
+    height = height, 
+    width  = width
+  )
 
-  ggsave(plot = g, file = paste0(filename, ".eps"), height = height, width = width)
- 
 }
 
 #--------------------------------------------------------------------------------------------------
