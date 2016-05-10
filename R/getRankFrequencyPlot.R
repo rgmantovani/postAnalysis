@@ -58,8 +58,14 @@ getRankFrequencyPlot = function(rk, data, k = 5, version = "percentage"){
   g = g + scale_y_continuous(limits = c(0, max(df$value))) + facet_grid(rank ~ .)
   g = g + theme(text = element_text(size=10), 
     axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) 
-  g = g + ylab("Occurences per Rank Position") + xlab("Algorithms")
+  g = g + xlab("Algorithms")
   g = g + scale_fill_gradient(high="red", low="grey40")
+
+  if(version == "percentage") {
+    g = g + ylab("% of Occurences per Rank Position") 
+  } else {
+    g = g + ylab("Occurences per Rank Position") 
+  }
 
   return(g)
 }

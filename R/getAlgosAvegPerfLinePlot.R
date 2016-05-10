@@ -52,10 +52,9 @@ getAlgosAvegPerfLinePlot = function(data, rk.full) {
   g2 = g2 + scale_colour_brewer(palette="Dark2")
   g2 = g2 + ylab("Average ranking") + xlab("Algorithms")
 
- double.g = gridExtra::arrangeGrob(g1, g2, ncol = 1, nrow = 2)
+  double.g = gridExtra::arrangeGrob(g1, g2, ncol = 1, nrow = 2)
   return(double.g)
 }
-
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
