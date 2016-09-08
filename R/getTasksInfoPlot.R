@@ -36,7 +36,7 @@ getTasksInfoPlot = function(data) {
 }
 
 # Color blind palette (Dark2)
- #http://colorbrewer2.org/
+# http://colorbrewer2.org/
 # ['#1b9e77','#d95f02','#7570b3']
 
 #--------------------------------------------------------------------------------------------------

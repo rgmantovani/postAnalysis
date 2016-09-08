@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-# Not handling NAs values (removed from the ranking)
+# Obs: Not handling NAs values (removed from the ranking)
 
 getRanking = function(mat, descending = FALSE) {
   
@@ -23,9 +23,9 @@ getRanking = function(mat, descending = FALSE) {
 
   rk.mean = data.frame(do.call("rbind", aux))
   rk.mean$alg = colnames(temp)
-  colnames(rk.mean) = c("rk.mean", "alg")
+  colnames(rk.mean) = c("rk.avg", "alg")
   rk.mean = rk.mean[, c(2,1)]
-  ret = list(rk = temp, rk.mean = rk.mean)
+  ret = list(rk = temp, rk.avg = rk.mean)
 
   return(ret)
 }

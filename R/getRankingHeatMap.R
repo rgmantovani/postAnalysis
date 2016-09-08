@@ -1,12 +1,12 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getRankingHeatMap = function(temp) {
+getRankingHeatMap = function(data) {
 
-  temp$task = rownames(temp)
-  rownames(temp) = NULL
+  data$task = rownames(data)
+  rownames(data) = NULL
 
-  df = melt(temp, id.vars=ncol(temp))
+  df = melt(data, id.vars=ncol(data))
   colnames(df) = c("task", "algo", "Rank") 
 
   g = ggplot(df, aes(x = task, y = as.factor(algo), fill = Rank, colour = Rank))

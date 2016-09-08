@@ -1,12 +1,22 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-library('ggplot2')
-library('reshape2')
-library('gridExtra')  
-library('mlr')
-library('OpenML')
-library('dplyr')
+scaleMatrix = function(mat) {
+
+  best = lapply(1:nrow(mat), function(i){
+    ids = which(!is.na(mat[i,]))
+    return(max(mat[i, ids]))
+  })
+  df = data.frame(do.call("rbind", best))
+
+  aux = lapply(1:nrow(mat), function(i){
+    line = mat[i,] / best[i]
+    return(line)
+  })
+
+  tasks = data.frame(do.call("rbind", aux))
+  return(tasks)
+}
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------

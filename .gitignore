@@ -3,6 +3,10 @@
 .RData
 
 .Rbuildignore
+*.zip
+
+.ipynb_checkpoints
 
 plots/
 
+TODO List

@@ -115,7 +115,12 @@ analysisHugeData = function() {
   algos.avg.plot = getAlgosAvegPerfLinePlot(data = data, rk.full = rk.full)
   savePlotInEpsFile(g = algos.avg.plot, filename = paste0(subdir,"AlgosPerformanceLinePlot"))
 
+  acc.top = getTopAgainsBestPlot(mat = mat.acc, k = 5)
+  savePlotInEpsFile(g = acc.top, filename = paste0("testACC"))
 
+  auc.top = getTopAgainsBestPlot(mat = mat.auc, k = 5)
+  savePlotInEpsFile(g = auc.top, filename = paste0("testAUC"))
+  
   #------------------------------------------------
   # Ranking Frequency plot
   #------------------------------------------------
@@ -164,6 +169,12 @@ analysisHugeData = function() {
   savePlotInEpsFile(g = single.violin.acc, filename = paste0(subdir,"PercMaxPerfViolinPlotAcc"),
     height = 4, width = 10)
 
+  # heatmap of the ranking based on the % performance
+  rk.perc.acc = getRanking(mat = tasks.acc, descending = TRUE)
+  perc.acc.heatmap = getRankingHeatMap(temp = rk.perc.acc$rk)
+  savePlotInEpsFile(g = perc.acc.heatmap, filename = paste0(subdir,"PercMaxPerfRankAccHeatmap"),
+    height = 6, width = 11)
+
   # for auc ...
   tasks.auc  = getMaxPerfMatrix(mat.auc)
   single.boxplot.auc = getMaxPerfSinglePlotByMeasure(data, tasks.auc, chart = "boxplot", prefix = "auc")
@@ -179,6 +190,13 @@ analysisHugeData = function() {
   single.heatmap.auc = getMaxPerfSinglePlotByMeasure(data, tasks.auc, chart = "heatmap", prefix = "auc")
   savePlotInEpsFile(g = single.heatmap.auc, filename = paste0(subdir,"PercMaxPerfHeatmapAuc"),
     height = 6, width = 11)
+
+  # heatmap of the rk based on the % performance
+  rk.perc.auc = getRanking(mat = tasks.auc, descending = TRUE)
+  perc.auc.heatmap = getRankingHeatMap(temp = rk.perc.auc$rk)
+  savePlotInEpsFile(g = perc.auc.heatmap, filename = paste0(subdir,"PercMaxPerfRankAucHeatmap"),
+    height = 6, width = 11)
+
 
   # line plot (both measures)
   max.perf.plot = getPercMaxPerfLinePlot(data, mat.acc, mat.auc, mat.comp)

@@ -9,42 +9,64 @@
 analysisFromOpenML = function() {
 
   devtools::load_all()
-  subdir = "plots/openml_data/"
+  subdir = "plots/test/"
   if(!dir.exists(subdir)) {
     cat(" - Creating dir:", subdir, "\n")
     dir.create(subdir)
   }
 
-  # TODO: listen how many results I have and ger from OpenML using pagging, and the tagged runs 
+  data = getExperimentsData(tag = "study_7", numRuns = 18000)
 
-  # data = getRunResultsByTag(tag = "randomBot") #defaults
-  load(file = "data/small_set.RData")
+  # getting performance matrices for different performance measures
+  mat.acc     = getPerfMatrix(data = data, measure = "predictive.accuracy")
+  mat.auc     = getPerfMatrix(data = data, measure = "area.under.roc.curve")
+  mat.f1      = getPerfMatrix(data = data, measure = "f.measure")
+  mat.runtime = getPerfMatrix(data = data, measure = "usercpu.time.millis")
 
-  cat(" # Results Analysis: \n")
-  cat(" - Generating matrices: \n")
-  mat.acc  = getMatrix(data, column = "predictive.accuracy")
-  mat.auc  = getMatrix(data, column = "area.under.roc.curve")
-  mat.comp = getMatrixAucRuntime(data, w = 0.1)
+  # performance weighted by the runtime
+  mat.acc.w = getPerfMatrix(data = data, measure = "predictive.accuracy", weighted = TRUE)
 
-  temp = data
-  temp$runtime = data$training.time + data$testing.time
-  mat.time = getMatrix(temp, column = "runtime")
- 
   cat(" - Generating rankings: \n")
-  rk.acc  = getRanking(mat.acc,  descending = TRUE)
-  rk.auc  = getRanking(mat.auc,  descending = TRUE) 
-  rk.comp = getRanking(mat.comp, descending = TRUE) 
-  rk.time = getRanking(mat.time, descending = FALSE)
+  rk.acc   = getRanking(mat.acc,   descending = TRUE)
+  rk.auc   = getRanking(mat.auc,   descending = TRUE) 
+  rk.f1    = getRanking(mat.f1,    descending = TRUE)
+  rk.acc.w = getRanking(mat.acc.w, descending = TRUE) 
+  rk.time  = getRanking(mat.runtime,  descending = FALSE)
   
-  # binding average ranking for each measure (rk with the 3 different measures)
+  # Tasks info plot
+  cat("\t@Plot: tasks info \n")
+  tasks.plot = getTasksInfoPlot(data = data)  
+
+  acc.boxplot = getBoxPlot(data = data, measure = "predictive.accuracy")
+  # getBoxPlot(data = data, measure = "usercpu.time.millis")
+  # getBoxPlot(data = data, measure = "usercpu.time.millis.training")
+  # getBoxPlot(data = data, measure = "usercpu.time.millis.testing")
+  # getBoxPlot(data = data, measure = "f.measure")
+  # getBoxPlot(data = data, measure = "kappa")
+  
+
+  acc.violin = getViolinPlot(data, measure = "predictive.accuracy")
+  # getViolinPlot(data, measure = "area.under.roc.curve")
+  # getViolinPlot(data, measure = "f.measure")
+  # getViolinPlot(data, measure = "usercpu.time.millis")
+
+  runtime.data = getAvgRuntimeData(data = data)
+  time.line = getRuntimeLinePlot(runtime.data = runtime.data)
+
+
+  # max perf plot
+
+
+  # ranking frequency
+
+
+  # combined plots
   rk.full = data.frame(cbind(rk.acc$rk.mean, rk.auc$rk.mean[,2], rk.comp$rk.mean[,2]))
   colnames(rk.full) = c("alg", "rk_acc", "rk_auc", "rk_auc_run")
   
-  # Calling data plots
-  cat(" - Generating plots: \n")
 
-  cat("\t@Plot: tasks info \n")
-  task.plot = getTasksInfoPlot(data = data)  
+
+  # Saving a plot
   savePlotInEpsFile(g = task.plot, filename = paste0(subdir,"DatasetsInfoPerformance"), 
     height = 5, width = 8)
 
@@ -58,9 +80,7 @@ analysisFromOpenML = function() {
     #------------------------------------------------
 
     runtime.line.plot = getRuntimeLinePlot(data = data)
-    savePlotInEpsFile(g = runtime.line.plot, filename = paste0(subdir,"RuntimeLinePlot"), 
-      height = 4.5, width = 10)
-
+ 
     runtime.boxplot.land = getRuntimeBoxplot(data = data, landscape = TRUE)
     savePlotInEpsFile(g = runtime.boxplot.land, filename = paste0(subdir,"RuntimeBoxplotLandscape"), 
       height = 8, width = 5)
@@ -194,7 +214,5 @@ analysisFromOpenML = function() {
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-analysisFromOpenML()
 
-#--------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------
+
