@@ -15,7 +15,7 @@ getRanking = function(mat, descending = FALSE) {
     }
   }
 
-  # mean ranking
+  # average ranking
   aux = lapply(1:ncol(temp), function(i) {
     ids = which(!is.na(temp[,i]))
     return( mean(temp[ids,i]) )

@@ -8,6 +8,8 @@ checkMeasure = function(measure){
   if (!( measure %in% allowed.measures)) {
     stop(paste0(" - Please, choose one of the following measures: ", 
       paste(allowed.measures, collapse=', '), " \n"))  
+  } else {
+    return(TRUE)
   }
 }
 

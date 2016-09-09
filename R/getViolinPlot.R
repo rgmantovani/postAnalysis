@@ -7,22 +7,27 @@ getViolinPlot = function(data, measure = "predictive.accuracy", landscape = TRUE
 
   temp = data[, c("flow.name", measure)]
   colnames(temp) = c("algo", "meas")
+
+  if( measure == "usercpu.time.millis") {
+    y.label = "log(Runtime)"
+  } else if(measure == "usercpu.time.millis.training"){
+    y.label = "log(Training time)"
+  } else if(measure == "usercpu.time.millis") {
+    y.label = "log(Testing time)"
+  } else {
+    y.label = gsub(measure, pattern="\\.", replacement=" ")
+  }
   
+  if(!is.null(prefix)) {
+    y.label = paste(prefix, y.label)
+  }
+
   if(measure %in% c("usercpu.time.millis",  "usercpu.time.millis.training", 
     "usercpu.time.millis.testing")) { 
- 
     g = ggplot(data = temp, mapping = aes(x = as.factor(algo), y = log(meas), fill = algo))
-    if( measure == "usercpu.time.millis") {
-      g = g + ylab("log(Runtime)")
-    } else if(measure == "usercpu.time.millis.training"){
-      g = g + ylab("log(Training time)")
-    } else{
-      g = g + ylab("log(Testing time)")
-    }
   } else {
     g = ggplot(data = temp, mapping = aes(x = as.factor(algo), y = meas, fill = algo))
     g = g + scale_y_continuous(limits = c(0, 1))
-    g = g + ylab(gsub(measure, pattern="\\.", replacement=" "))
   }
 
   g = g + geom_violin(trim = TRUE, scale = "width")

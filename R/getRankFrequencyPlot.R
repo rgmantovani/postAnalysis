@@ -3,8 +3,8 @@
 
 getRankFrequencyPlot = function(rk, data, k = 5, version = "percentage"){
 
-  data.runtime = getRuntime(data)
-  all.learners = unique(data$algo)
+  data.runtime = getAvgRuntimeData(data = data)
+  all.learners = unique(data$flow.name)
   mat = rk$rk
 
   # k-best algorithms
@@ -40,7 +40,7 @@ getRankFrequencyPlot = function(rk, data, k = 5, version = "percentage"){
   for(i in 1:nrow(rk.df)){
     id = which(data.runtime$alg == rk.df$alg[i])
     if(length(id) != 0) {
-      value = data.runtime$total[id]
+      value = data.runtime$usercpu.time.millis[id]
       rk.df$runtime[i] = value
     }
   }
@@ -56,8 +56,7 @@ getRankFrequencyPlot = function(rk, data, k = 5, version = "percentage"){
   g = ggplot(data = df, aes(x=learner, y=value, fill=runtime)) 
   g = g + geom_bar(position="dodge",stat="identity") + guides(fill=FALSE)
   g = g + scale_y_continuous(limits = c(0, max(df$value))) + facet_grid(rank ~ .)
-  g = g + theme(text = element_text(size=10), 
-    axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) 
+  g = g + theme(text = element_text(size=10), axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) 
   g = g + xlab("Algorithms")
   g = g + scale_fill_gradient(high="red", low="grey40")
 
