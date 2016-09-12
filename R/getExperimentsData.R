@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getExperimentsData = function(tag, numRuns) {
+getExperimentsData = function(tag, numRuns = 10000) {
 
   if(is.null(tag)) {
     stop("You should specifiy a tag to get your OpenML runs!")
@@ -18,18 +18,11 @@ getExperimentsData = function(tag, numRuns) {
     })
   )
 
-  sub.datasets = dplyr::select(.data = listOMLDataSets(), data.id, name, NumberOfInstances, 
+  sub.datasets = dplyr::select(.data = listOMLDataSets(tag = tag), data.id, name, NumberOfInstances, 
     NumberOfFeatures, NumberOfClasses, MajorityClassSize)
+  colnames(sub.datasets)[2] = "data.name"
 
-  # getting dataset information from results
-  aux = lapply(1:nrow(results), function(i) {
-    task = getOMLTask(task.id = results$task.id[i])
-    data.id = which(sub.datasets$data.id == task$input$data.set$desc$id)
-    return (sub.datasets[data.id,])
-  })
-
-  data.info = do.call("rbind", aux)
-  temp = cbind(results, data.info)
+  temp = merge(results, sub.datasets, by = "data.name")
   temp$perMajClass = temp$MajorityClassSize / temp$NumberOfInstances
   temp$flow.name = sub("\\(.*", "", temp$flow.name)
   

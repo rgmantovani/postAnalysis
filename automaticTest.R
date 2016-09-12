@@ -14,18 +14,18 @@ automaticTest = function() {
  
   checkPackages(pkgs = required_packages)
 
-  # TODO: tags
-  data = getExperimentsData(tag = "study_7", numRuns = 18000)
-  # data = listOMLRunEvaluations(tag = c("study_14"))
-
+  # TODO: more than one tag
+  # data = getExperimentsData(tag = "study_7", numRuns = 18000)
+  data = getExperimentsData(tag = "study_14")
+ 
   # getting performance matrices for different performance measures
-  mat.acc     = getPerfMatrix(data = data, measure = "predictive.accuracy")
-  mat.auc     = getPerfMatrix(data = data, measure = "area.under.roc.curve")
-  mat.f1      = getPerfMatrix(data = data, measure = "f.measure")
-  mat.kappa   = getPerfMatrix(data = data, measure = "kappa")
-  mat.runtime = getPerfMatrix(data = data, measure = "usercpu.time.millis")
+  mat.acc       = getPerfMatrix(data = data, measure = "predictive.accuracy")
+  mat.auc       = getPerfMatrix(data = data, measure = "area.under.roc.curve")
+  mat.f1        = getPerfMatrix(data = data, measure = "f.measure")
+  mat.kappa     = getPerfMatrix(data = data, measure = "kappa")
+  mat.runtime   = getPerfMatrix(data = data, measure = "usercpu.time.millis")
   mat.precision = getPerfMatrix(data = data, measure = "precision")
-  mat.recall  = getPerfMatrix(data = data, measure = "recall")
+  mat.recall    = getPerfMatrix(data = data, measure = "recall")
 
   # performance weighted by the runtime
   mat.acc.w = getPerfMatrix(data = data, measure = "predictive.accuracy", weighted = TRUE)
@@ -74,7 +74,7 @@ automaticTest = function() {
   rk.fr1 = getRankFrequencyPlot(rk = rk.auc,  data = data, version = "percentage")
   rk.fr2 = getRankFrequencyPlot(rk = rk.auc, data = data, version = "counter")
  
-  rk.hm = getRankingHeatMap(data = rk.time$rk)
+  rk.hm = getRankingHeatMap(data = rk.acc$rk)
   # getRankingHeatMap(data = rk.time$rk)
   # getRankingHeatMap(data = rk.acc$rk)
   # getRankingHeatMap(data = rk.auc$rk)
@@ -90,7 +90,7 @@ automaticTest = function() {
   # scaled.mat.runtime = scaleMatrix(mat = mat.runtime)
 
   getMatrixBoxPlot(mat = scaled.mat.acc,    prefix = "predictive accuracy")
-  getMatrixViolinPlot(mat = scaled.mat.acc, prefix = "predictive accuracy")
+  getMatrixViolinPlot(mat = scaled.mat.acc, prefix = "predictive accuracy", landscape = TRUE)
   getMatrixHeatMap(mat = scaled.mat.acc,    prefix = "predictive accuracy")
 
   # Combined Plots - Performances plots 
@@ -100,7 +100,7 @@ automaticTest = function() {
   g1 = getAlgosAvgPerfLinePlot(data = data, measures.list = measures.list)
   g2 = getAlgosAvgRankLinePlot(data = data, measures.list = measures.list)
 
-  # g3 = gridExtra::arrangeGrob(g1, g2, ncol = 1, nrow = 2)
+  # g3 = gridExtra::arrangeGrob(g1, g2, ncol = 1, nrow = 2) # To save in file
   gm = gridExtra::grid.arrange(g1, g2, ncol = 1, nrow = 2)
 
 

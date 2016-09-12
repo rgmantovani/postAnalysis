@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getRankingHeatMap = function(dat, prefix = NULL) {
+getRankingHeatMap = function(data, prefix = NULL) {
 
   data$task = rownames(data)
   rownames(data) = NULL

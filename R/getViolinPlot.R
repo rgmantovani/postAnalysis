@@ -31,10 +31,10 @@ getViolinPlot = function(data, measure = "predictive.accuracy", landscape = TRUE
   }
 
   g = g + geom_violin(trim = TRUE, scale = "width")
-  g = g + geom_boxplot(outlier.colour = "black", outlier.size = 0.5)
+  g = g + geom_boxplot(outlier.colour = "black", outlier.size = 0.5, width = 0.2, fill = "white")
   g = g + theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
   g = g + theme_bw() + theme(legend.position="none")
-  g = g + xlab("Algorithms")
+  g = g + xlab("Algorithms") + ylab(y.label)
   
   if(landscape) {
     g = g + coord_flip()

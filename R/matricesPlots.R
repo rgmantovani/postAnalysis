@@ -33,7 +33,7 @@ getMatrixViolinPlot = function(mat, landscape = FALSE, prefix = NULL) {
  
   g = ggplot(data = df, mapping = aes(x = as.factor(algo), y = value, fill = algo))
   g = g + geom_violin(trim = TRUE, scale = "width")
-  g = g + geom_boxplot(outlier.colour = "black", outlier.size = 0.5, width = 0.1)
+  g = g + geom_boxplot(outlier.colour = "black", outlier.size = 0.5, width = 0.1, fill = "white")
   g = g + scale_y_continuous(limits = c(0, 1))
   g = g + theme(text = element_text(size = 10), 
     axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
