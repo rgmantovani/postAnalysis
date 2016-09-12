@@ -30,7 +30,7 @@ getPercMaxPerfLinePlot = function(matrices.list, measures.names) {
   g = g + geom_line() + geom_point() 
   g = g + guides(fill = FALSE)
   g = g + theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
-  g = g + scale_y_continuous(limits = c(0.0, 1))
+  g = g + scale_y_continuous(limits = c(0.4, 1))
   g = g + scale_colour_brewer(palette = "Set2")
   g = g + ylab("% of Max. Performance") + xlab("Algorithms")
 
