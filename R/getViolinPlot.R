@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getViolinPlot = function(data, measure = "predictive.accuracy", landscape = TRUE) {
+getViolinPlot = function(data, measure = "predictive.accuracy", landscape = TRUE, prefix = NULL) {
 
   checkMeasure(measure = measure)
 

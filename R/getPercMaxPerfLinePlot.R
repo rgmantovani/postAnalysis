@@ -1,38 +1,32 @@
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 
-getPercMaxPerfLinePlot = function(data, mat.acc, mat.auc, mat.comp) {
+getPercMaxPerfLinePlot = function(matrices.list, measures.names) {
+  
+  if(length(matrices.list) != length(measures.names)) {
+    stop("The length of the matrices list does not match with the measures names length!")
+  }
 
-  tasks.acc   = getMaxPerfMatrix(mat.acc)
-  tasks.auc   = getMaxPerfMatrix(mat.auc)
-  tasks.comp  = getMaxPerfMatrix(mat.comp)
+  aux = lapply(matrices.list, function(mat){
+    temp = scaleMatrix(mat = mat) 
+    inner.tmp = do.call("rbind",lapply(1:ncol(temp), function(j) {
+      ids = which(!is.na(temp[,j]))
+      return(mean(temp[ids,j]))
+    }))
+    return(inner.tmp)
+ })
 
-  temp.acc = data.frame(do.call("rbind",lapply(1:ncol(tasks.acc), function(j){
-    ids = which(!is.na(tasks.acc[,j]))
-    return(mean(tasks.acc[ids,j]))
-  })))
+  df = data.frame(do.call("cbind", aux))
+  df$algo = colnames(matrices.list[[1]])
+  colnames(df)[1:length(matrices.list)] = paste0("perc_max_",measures.names)
 
-  temp.auc = data.frame(do.call("rbind",lapply(1:ncol(tasks.auc), function(j){
-    ids = which(!is.na(tasks.auc[,j]))
-    return(mean(tasks.auc[ids,j]))
-  })))
-
-  temp.comp = data.frame(do.call("rbind",lapply(1:ncol(tasks.comp), function(j){
-    ids = which(!is.na(tasks.comp[,j]))
-    return(mean(tasks.comp[ids,j]))
-  })))
-
-  temp = cbind(temp.acc, temp.auc, temp.comp)
-  temp$alg = colnames(mat.acc)
-  colnames(temp)[1:3] = c("perc_max_acc", "perc_max_auc", "perc_max_auc_run")
-
-  temp = temp[order(temp$perc_max_auc, decreasing = TRUE), ]
-  temp$alg = factor(temp$alg, levels = temp$alg)
+  temp = df[order(df[,1], decreasing = TRUE), ]
+  temp$algo = factor(temp$algo, levels = temp$algo)
  
-  df.p = melt(temp, id.vars = 4)
+  df.p = melt(temp, id.vars = ncol(temp))
   colnames(df.p)[2] = "Measure"
   
-  g = ggplot(data=df.p, aes(x=alg, y=value, group=Measure, colour=Measure, linetype=Measure, shape=Measure)) 
+  g = ggplot(data=df.p, aes(x=algo, y=value, group=Measure, colour=Measure, linetype=Measure, shape=Measure)) 
   g = g + geom_line() + geom_point() 
   g = g + guides(fill = FALSE)
   g = g + theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
@@ -41,6 +35,7 @@ getPercMaxPerfLinePlot = function(data, mat.acc, mat.auc, mat.comp) {
   g = g + ylab("% of Max. Performance") + xlab("Algorithms")
 
   return(g)
+
 }
 
 #--------------------------------------------------------------------------------------------------
