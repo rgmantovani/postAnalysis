@@ -35,7 +35,6 @@ getPercMaxPerfLinePlot = function(matrices.list, measures.names) {
   g = g + ylab("% of Max. Performance") + xlab("Algorithms")
 
   return(g)
-
 }
 
 #--------------------------------------------------------------------------------------------------
