@@ -52,19 +52,19 @@ getMatrixViolinPlot = function(mat, landscape = FALSE, prefix = NULL) {
 getMatrixHeatMap = function(mat, landscape = FALSE, prefix = NULL) {
 
   mat$task = paste0("OML_Task_",rownames(mat))
-  mat[is.na(mat)] = 0
+  # mat[is.na(mat)] = 0
 
   df = melt(mat, id.vars = ncol(mat))
   colnames(df) = c("task", "algo", "percentage")
 
   g = ggplot(df, aes(x = task, y = as.factor(algo), fill=percentage, colour=percentage))
   g = g + geom_tile() 
-  g = g + scale_fill_gradient(low = "white", high = "black")
-  g = g + scale_colour_gradient(low = "white", high = "black")
+  g = g + scale_fill_gradient(low = "white", high = "black", na.value = "salmon")
+  g = g + scale_colour_gradient(low = "white", high = "black", na.value = "salmon")
   g = g + scale_x_discrete(breaks = FALSE)
   g = g + theme(text = element_text(size = 10), axis.text.x = element_blank()) 
   g = g + xlab("Tasks") + ylab("Algorithms")
-  g = g + ggtitle(paste("Percentage of the maximum", prefix,"over all the tasks"))
+  g = g + ggtitle(paste("Percentage of the maximum", prefix, "over all the tasks"))
 
   return(g)
 }

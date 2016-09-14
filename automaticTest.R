@@ -59,6 +59,7 @@ automaticTest = function() {
   # Runtime average line plot
   #------------------------------------------------
   runtime.data = getAvgRuntimeData(data = data)
+  agg.time  = getAggRuntimeData(data = data)
   time.line = getRuntimeLinePlot(runtime.data = runtime.data)
 
 
