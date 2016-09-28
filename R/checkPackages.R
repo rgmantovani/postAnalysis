@@ -4,7 +4,6 @@
 checkPackages = function(pkgs) {
 
   obj = installed.packages()
-
   for(pk in pkgs) {
     
     if(pk %in% rownames(obj)) {
@@ -16,7 +15,10 @@ checkPackages = function(pkgs) {
       } else if(pk == "OpenML") {
         devtools::install_github("openml/r", ref = "05b8b97cc5ce6ea1b3f586818cfcf157b16a3cd4")
       } else {
-        install.packages(pkgs = pk)   
+        install.packages(
+          pkgs = pk, 
+          repos = c("https://cran.uni-muenster.de/", "http://www.freestatistics.org/cran/")
+        )   
       }
     }
   }

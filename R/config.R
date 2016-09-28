@@ -10,6 +10,10 @@ library('gridExtra')
 library('mlr')
 library('OpenML')
 library('dplyr')
+library('checkmate')
+
+AVAILABLE.MEASURES = c("f.measure", "kappa", "mean.absolute.error", "precision", "recall", 
+  "usercpu.time.millis", "area.under.roc.curve", "predictive.accuracy", "root.mean.squared.error")
 
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------

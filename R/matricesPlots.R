@@ -3,8 +3,6 @@
 
 getMatrixBoxPlot = function(mat, data, landscape = FALSE, prefix = NULL) {
 
-  # TODO: show tasks order tasks according to the type ?
-
   df = na.omit(melt(mat))
   colnames(df)[1] = "algo"
  

@@ -10,7 +10,7 @@ automaticTest = function() {
 
   devtools::load_all()
   required_packages = c("devtools", "ggplot2", "reshape2", "gridExtra", "mlr", 
-    "dplyr", "farff", "OpenML")
+    "dplyr", "farff", "OpenML", "checkmate")
  
   checkPackages(pkgs = required_packages)
 
@@ -42,28 +42,26 @@ automaticTest = function() {
   # Performances plots 
   #------------------------------------------------
 
-  acc.boxplot = getBoxPlot(data = data, measure = "predictive.accuracy")
-  # getBoxPlot(data = data, measure = "usercpu.time.millis")
-  # getBoxPlot(data = data, measure = "usercpu.time.millis.training")
-  # getBoxPlot(data = data, measure = "usercpu.time.millis.testing")
-  # getBoxPlot(data = data, measure = "f.measure")
-  # getBoxPlot(data = data, measure = "kappa")
+  acc.boxplot = getSimplePlot(data = data, measure = "predictive.accuracy", style = "boxplot")
+  # getSimplePlot(data = data,measure = "usercpu.time.millis", style = "boxplot")
+  # getSimplePlot(data = data,measure = "f.measure", style = "boxplot")
+  # getSimplePlot(data = data,measure = "kappa", style = "boxplot")
+
+  acc.violin = getSimplePlot(data = data, measure = "predictive.accuracy", style = "violin")
+  # getSimplePlot(data = data, measure = "f.measure", style = "violin")
   
-
-  acc.violin = getViolinPlot(data, measure = "predictive.accuracy")
-  # getViolinPlot(data, measure = "area.under.roc.curve")
-  # getViolinPlot(data, measure = "f.measure")
-  # getViolinPlot(data, measure = "usercpu.time.millis")
-
   #------------------------------------------------
   # Runtime average line plot
   #------------------------------------------------
-  runtime.data = getAvgRuntimeData(data = data)
-  agg.time  = getAggRuntimeData(data = data)
-  time.line = getRuntimeLinePlot(runtime.data = runtime.data)
+ 
+  time.line = getRuntimePlot(data = data, style = "point")
+  # getRuntimePlot(data = data, style = "boxplot")
+  # getRuntimePlot(data = data, style = "violin")
 
+  #------------------------------------------------
+  # Ranking frequency
+  #------------------------------------------------
 
-  # ranking frequency
   cat(" - Generating rankings: \n")
   rk.acc   = getRanking(mat.acc, descending = TRUE)
   rk.auc   = getRanking(mat.auc, descending = TRUE) 
@@ -90,7 +88,7 @@ automaticTest = function() {
   # scaled.mat.auc = scaleMatrix(mat = mat.auc)
   # scaled.mat.runtime = scaleMatrix(mat = mat.runtime)
 
-  getMatrixBoxPlot(mat = scaled.mat.acc,    prefix = "predictive accuracy")
+  getMatrixBoxPlot(mat = scaled.mat.acc,    prefix = "predictive accuracy", landscape = TRUE)
   getMatrixViolinPlot(mat = scaled.mat.acc, prefix = "predictive accuracy", landscape = TRUE)
   getMatrixHeatMap(mat = scaled.mat.acc,    prefix = "predictive accuracy")
 
@@ -98,8 +96,8 @@ automaticTest = function() {
   #------------------------------------------------
 
   measures.list = list("predictive.accuracy", "area.under.roc.curve", "f.measure")
-  g1 = getAlgosAvgPerfLinePlot(data = data, measures.list = measures.list)
-  g2 = getAlgosAvgRankLinePlot(data = data, measures.list = measures.list)
+  g1 = getAlgosAvgLinePlot(data = data, measures.list = measures.list)
+  g2 = getAlgosAvgBarPlot(data = data, measures.list = measures.list)
 
   # g3 = gridExtra::arrangeGrob(g1, g2, ncol = 1, nrow = 2) # To save in file
   gm = gridExtra::grid.arrange(g1, g2, ncol = 1, nrow = 2)

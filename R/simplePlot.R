@@ -3,10 +3,8 @@
 
 getSimplePlot = function(data, measure = "predictive.accuracy", style, landscape = TRUE, prefix = NULL) {
 
-  if(!(style %in% c("boxplot", "violin"))) {
-    stop("Please, choose a valid style: boxplot or violin.")
-  }
-  checkMeasure(measure = measure)
+  assertChoice(x = style, choices = c("boxplot", "violin"))
+  assertChoice(x = measure, choices = AVAILABLE.MEASURES)
 
   temp = data[, c("flow.name", measure)]
   colnames(temp) = c("algo", "meas")

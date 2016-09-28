@@ -8,7 +8,7 @@ getExperimentsData = function(tag, numRuns = 10000) {
   }
 
   if(numRuns < 1) {
-    stop("You should specifiy a positive integer number of runs.")
+    stop("You should specifiy a positive number of runs!")
   }
 
   # getting run results from OpenML

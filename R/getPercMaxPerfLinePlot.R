@@ -26,10 +26,12 @@ getPercMaxPerfLinePlot = function(matrices.list, measures.names) {
   df.p = melt(temp, id.vars = ncol(temp))
   colnames(df.p)[2] = "Measure"
   
-  g = ggplot(data=df.p, aes(x=algo, y=value, group=Measure, colour=Measure, linetype=Measure, shape=Measure)) 
+  g = ggplot(data=df.p, aes(x=algo, y=value, group=Measure, colour=Measure, 
+    linetype=Measure, shape=Measure)) 
   g = g + geom_line() + geom_point() 
   g = g + guides(fill = FALSE)
-  g = g + theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
+  g = g + theme(text = element_text(size = 10), 
+    axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1))
   g = g + scale_y_continuous(limits = c(0.4, 1))
   g = g + scale_colour_brewer(palette = "Set2")
   g = g + ylab("% of Max. Performance") + xlab("Algorithms")

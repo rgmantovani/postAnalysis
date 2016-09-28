@@ -4,7 +4,7 @@
 handleData = function(data, measures.list) {
 
   aux = lapply(measures.list, function(meas){
-    checkMeasure(measure = meas)
+    assertChoice(x = meas, choices = AVAILABLE.MEASURES)
   })
   meas.names = do.call("c", measures.list)
  

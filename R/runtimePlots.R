@@ -3,9 +3,7 @@
 
 getRuntimePlot = function(data, style) { 
 
-  if(!(style %in% c("point", "boxplot", "violin"))) {
-    stop("Please, provide a valid style: point, boxplot or violin ")
-  }
+  assertChoice(x = style, choices = c("point", "boxplot", "violin"))
 
   temp = dplyr::select(.data = data, flow.name, usercpu.time.millis.training, 
     usercpu.time.millis.testing, usercpu.time.millis)

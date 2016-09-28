@@ -3,7 +3,7 @@
 
 getPerfMatrix = function(data, measure = "predictive.accuracy", weighted = FALSE, w = 0.1) {
 
-  checkMeasure(measure = measure)
+  assertChoice(x = measure, choices = AVAILABLE.MEASURES)
   cat(paste0(" - Getting performance matrix for: ", measure, "\n"))
   
   all.learners = unique(data$flow.name)
